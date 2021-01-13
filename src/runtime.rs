@@ -13,6 +13,8 @@ pub struct Runtime<'a> {
 	rootfs: &'a str,
 	cmd: &'a str,
 	quota: &'a str,
+	mntsrc: &'a str,
+	mnttar: &'a str,
 	args: Vec<&'a str>
 }
 
@@ -22,8 +24,8 @@ fn set_hostname(hostname: &str) {
 }
 
 impl Runtime<'_> {
-	pub fn new<'a>(hostname: &'a str, rootfs: &'a str, cmd: &'a str, quota: &'a str, args: Vec<&'a str>) -> Runtime<'a> {
-		Runtime{hostname: &hostname, rootfs: &rootfs, cmd: &cmd, quota: &quota, args: args}
+	pub fn new<'a>(hostname: &'a str, rootfs: &'a str, cmd: &'a str, quota: &'a str, mntsrc: &'a str, mnttar: &'a str, args: Vec<&'a str>) -> Runtime<'a> {
+		Runtime{hostname: &hostname, rootfs: &rootfs, cmd: &cmd, quota: &quota, mntsrc: &mntsrc, mnttar: &mnttar, args: args}
 	}
 
 	fn spawn_child(&self) -> isize {
@@ -40,7 +42,9 @@ impl Runtime<'_> {
 		}
 	
 		set_hostname(self.hostname);
-		mount::mount_tran("/root/demo-gpu-container", "/root/images/rootfs/mnt");
+		if self.mntsrc != "-1" {
+			mount::mount_tran(self.mntsrc, &(self.rootfs.to_owned() + self.mnttar));
+		}
 
 		filesystem::set_root_fs(self.rootfs);
 		mount::mount_perm("proc");
@@ -48,7 +52,6 @@ impl Runtime<'_> {
 		Command::new(self.cmd).args(arg_slice).spawn().expect("Failed to execute container command").wait().unwrap();
 		
 		mount::unmount_item("proc");
-		mount::unmount_item("mnt");
 		return 0;
 	}
 	

@@ -26,6 +26,7 @@ fn main() {
 	opts.optopt("c", "command", "Command to be executed \neg. --command `curl http://google.com`", "command");
 	opts.optopt("n", "hostname", "Customize the name of your container \ndefault: --hostname dokka", "hostname");
 	opts.optopt("q", "quota", "The quota of CGroup for your process \neg. --quota cpu:cpu.cfs_quota_us:50000", "quota");
+	opts.optopt("m", "mount", "Mount directory to container \neg. --mount /root:/mnt", "");
 	opts.optflag("h", "help", "Print this help menu");
 
 
@@ -46,6 +47,7 @@ fn main() {
 	}
 
 	let rootfs = if matches.opt_present("r") {matches.opt_str("r").unwrap()} else {String::from("../images/rootfs")};
+	let mnt = if matches.opt_present("m") {matches.opt_str("m").unwrap()} else {String::from("-1")};
 	let name = if matches.opt_present("n") {matches.opt_str("n").unwrap()} else {String::from("dokka")};
 	let quota = match matches.opt_str("quota") {
         Some(s) => s,
@@ -60,7 +62,18 @@ fn main() {
 		process::exit(7);
 	});
 
-	let cylinder = runtime::Runtime::new(&name, &rootfs, &command, &quota, args);
+	let a: &str;
+	let b: &str;
+	if mnt != "-1" {
+		let param: Vec<&str> = mnt.split(":").collect();
+		a = param[0];
+		b = param[1];
+	} else {
+		a = "-1";
+		b = "-1";
+	}
+
+	let cylinder = runtime::Runtime::new(&name, &rootfs, &command, &quota, a, b, args);
 	cylinder.run_container();
 }
 
