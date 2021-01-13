@@ -14,7 +14,7 @@ mod mount;
 mod namespace;
 
 fn print_usage(program: &str, opts: &Options) {
-	let brief = format!("Usage: {} vas-quod [options] [-- <command> <argument>...]", program);
+	let brief = format!("Usage: {} [options] [-- <command> <argument>...]", program);
 	print!("{}", opts.usage(&brief));
 }
 

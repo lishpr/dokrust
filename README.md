@@ -20,6 +20,8 @@ Options:
                         default: --hostname dokka
     -q, --quota quota   The quota of CGroup for your process
                         eg. --quota cpu:cpu.cfs_quota_us:50000
+    -m, --mount         Mount directory to container
+                        eg. --mount /root:/mnt
     -h, --help          Print this help menu
 ```
 
