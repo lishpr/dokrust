@@ -22,10 +22,10 @@ fn main() {
 	let args: Vec<String> = env::args().collect();
 	let program = args[0].clone();
 	let mut opts = Options::new();
-	opts.optopt("r", "rootfs", "Path to root file-system \ndefault: --rootfs ../rootfs", "path");
-	opts.optopt("c", "command", "Command to be executed \neg. --command `curl http://google.com`", "command");
-	opts.optopt("n", "hostname", "Customize the name of your container \ndefault: --hostname dokka", "hostname");
-	opts.optopt("q", "quota", "The quota of CGroup for your process \neg. --quota cpu:cpu.cfs_quota_us:50000", "quota");
+	opts.optopt("r", "rootfs", "Path to root file-system \ndefault: --rootfs ../rootfs", "");
+	opts.optopt("c", "command", "Command to be executed \neg. --command `curl http://google.com`", "");
+	opts.optopt("n", "hostname", "Customize the name of your container \ndefault: --hostname dokka", "");
+	opts.optopt("q", "quota", "The quota of CGroup for your process \neg. --quota cpu:cpu.cfs_quota_us:50000", "");
 	opts.optopt("m", "mount", "Mount directory to container \neg. --mount /root:/mnt", "");
 	opts.optflag("h", "help", "Print this help menu");
 

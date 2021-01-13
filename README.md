@@ -16,15 +16,13 @@ Now, functionalities are being incrementally added. Including:
 Usage: ./dokrust [options] [-- <command> <argument>...]
 
 Options:
-    -r, --rootfs path   Path to root file-system
+    -r, --rootfs        Path to root file-system
                         default: --rootfs ../rootfs
-    -c, --command command
-                        Command to be executed
+    -c, --command       Command to be executed
                         eg. --command `curl http://google.com`
-    -n, --hostname hostname
-                        Customize the name of your container
+    -n, --hostname      Customize the name of your container
                         default: --hostname dokka
-    -q, --quota quota   The quota of CGroup for your process
+    -q, --quota         The quota of CGroup for your process
                         eg. --quota cpu:cpu.cfs_quota_us:50000
     -m, --mount         Mount directory to container
                         eg. --mount /root:/mnt
