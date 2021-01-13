@@ -1,8 +1,14 @@
 # Dokrust
 
-Dokrust is a container runtime written in rust. The distant goal is to run Android apps in the containers.
+Dokrust is a container runtime written in rust. The distant goal is to run Android apps in Dokrust containers.
 
-It is built on the foundation of [vas-quod](https://github.com/flouthoc/vas-quod). For now, functionalities such as hostname customization, quota assignment in different control groups for isolation, and sustained interaction within the container, are added.
+It is built on the foundation of [vas-quod](https://github.com/flouthoc/vas-quod). 
+
+Now, functionalities are being incrementally added. Including:
+* hostname customization
+* quota assignment in different control groups for isolation
+* sustained interaction within the container
+* directory mounting into the container
 
 ## Usage
 
