@@ -40,3 +40,6 @@ You may assign a distinct hostname for your container, such that distinct CGroup
 
 ### --quota
 The CGroup quota for your container. Should be formatted into ```{CGROUP_NAME}:{CGROUP_TARGET}:{QUOTA}```, for instance: ```cpu:cpu.cfs_quota_us:50000```. Multiple CGroup quotas should be seperated with ```::``` (two colons).
+
+### --mount
+Mount a directory outside the chosen rootfs into the container.
