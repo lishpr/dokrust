@@ -2,6 +2,8 @@ use nix::sched;
 use nix::sys::signal::Signal;
 use nix::unistd;
 use std::process::Command;
+use std::path::Path;
+use std::env;
 
 use crate::cgroup;
 use crate::filesystem;
@@ -40,13 +42,23 @@ impl Runtime<'_> {
 		}
 	
 		set_hostname(self.hostname);
-		
+		println!("{}", Path::new("/root/deadloop.c").exists());
+		println!("{}", Path::new("/root/images/rootfs").exists());
+
+		let path = env::current_dir().unwrap();
+		println!("The current directory is {}", path.display());
+		//mount::mount_tran("/root/deadloop.c", "/root/images/rootfs/root/deadloop.c");
+
 		filesystem::set_root_fs(self.rootfs);
+
+		println!("The current directory is {}", path.display());
+		println!("{}", Path::new("/root/deadloop.c").exists());
+		println!("{}", Path::new("/root/images/rootfs").exists());
 		mount::mount_perm("proc");
 
 		Command::new(self.cmd).args(arg_slice).spawn().expect("Failed to execute container command").wait().unwrap();
 		
-		mount::unmount_perm("proc");
+		mount::unmount_item("proc");
 		return 0;
 	}
 	
