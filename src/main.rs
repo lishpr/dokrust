@@ -12,6 +12,7 @@ mod cgroup;
 mod filesystem;
 mod mount;
 mod namespace;
+mod network;
 
 fn print_usage(program: &str, opts: &Options) {
 	let brief = format!("Usage: {} [options] [-- <command> <argument>...]", program);
