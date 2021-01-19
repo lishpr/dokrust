@@ -28,6 +28,7 @@ fn main() {
 	opts.optopt("n", "hostname", "Customize the name of your container \ndefault: --hostname dokka", "");
 	opts.optopt("q", "quota", "The quota of CGroup for your process \neg. --quota cpu:cpu.cfs_quota_us:50000", "");
 	opts.optopt("m", "mount", "Mount directory to container \neg. --mount /root:/mnt", "");
+	opts.optopt("k", "check", "1", "");
 	opts.optflag("h", "help", "Print this help menu");
 
 
@@ -50,6 +51,11 @@ fn main() {
 	let rootfs = if matches.opt_present("r") {matches.opt_str("r").unwrap()} else {String::from("../images/rootfs")};
 	let mnt = if matches.opt_present("m") {matches.opt_str("m").unwrap()} else {String::from("-1")};
 	let name = if matches.opt_present("n") {matches.opt_str("n").unwrap()} else {String::from("dokka")};
+	if matches.opt_present("k") {
+		let check = matches.opt_str("k").unwrap_or("dokka-container".to_owned());
+		network::fgetpid(&check);
+		return;
+	};
 	let quota = match matches.opt_str("quota") {
         Some(s) => s,
         None => String::from("-1"),
