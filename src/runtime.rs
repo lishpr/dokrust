@@ -2,7 +2,6 @@ use nix::sched;
 use nix::sys::signal::Signal;
 use nix::unistd;
 use std::process::Command;
-use std::cell::Cell;
 
 use crate::cgroup;
 use crate::filesystem;
@@ -16,7 +15,6 @@ pub struct Runtime<'a> {
 	quota: &'a str,
 	mntsrc: &'a str,
 	mnttar: &'a str,
-	pid: Cell<&'a str>,
 	args: Vec<&'a str>
 }
 
@@ -27,16 +25,16 @@ fn set_hostname(hostname: &str) {
 
 impl Runtime<'_> {
 	pub fn new<'a>(hostname: &'a str, rootfs: &'a str, cmd: &'a str, quota: &'a str, mntsrc: &'a str, mnttar: &'a str, args: Vec<&'a str>) -> Runtime<'a> {
-		Runtime{hostname: &hostname, rootfs: &rootfs, cmd: &cmd, quota: &quota, mntsrc: &mntsrc, mnttar: &mnttar, pid: Cell::new(""), args}
+		Runtime{hostname: &hostname, rootfs: &rootfs, cmd: &cmd, quota: &quota, mntsrc: &mntsrc, mnttar: &mnttar, args}
 	}
 
+	#[allow(dead_code)]
 	pub fn print_info(&self) {
 		println!("{}", self.hostname);
 		println!("{}", self.rootfs);
 		println!("{}", self.cmd);
 		println!("{}", self.quota);
 		println!("{}", self.mntsrc);
-		println!("{}", self.pid.get());
 	}
 
 	fn spawn_child(&self) -> isize {
@@ -45,14 +43,14 @@ impl Runtime<'_> {
 		namespace::create_isolated_namespace();
 
 		/* Set CGroups */
-		self.pid.set(cgroup::cgroup_init(group_name));
+		cgroup::cgroup_init(group_name);
 		if self.quota != "-1" {
 			for k in self.quota.split("::") {
 				let param: Vec<&str> = k.split(":").collect();
 				cgroup::cgroup_quota(param[0], param[1], param[2], group_name);
 			}
 		}
-	
+
 		set_hostname(self.hostname);
 		if self.mntsrc != "-1" {
 			mount::mount_tran(self.mntsrc, &(self.rootfs.to_owned() + self.mnttar));

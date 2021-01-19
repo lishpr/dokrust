@@ -8,7 +8,7 @@ use std::os::unix::fs::PermissionsExt;
 
 static CGROUP_PATH: &str = "/sys/fs/cgroup";
 
-pub fn cgroup_init(group_name: &str) -> &str {
+pub fn cgroup_init(group_name: &str) {
 	let mut cgroups_path = PathBuf::from(CGROUP_PATH);
 	if !cgroups_path.exists() {
 		println!("Error: Missing Cgroups Support");
@@ -30,10 +30,8 @@ pub fn cgroup_init(group_name: &str) -> &str {
 	
 	fs::write(pids_max, b"20").unwrap();
 	fs::write(notify_on_release, b"1").unwrap();
-	let s = format!("{}", unistd::getpid().as_raw());
-    fs::write(procs, s).unwrap();
-
-	return &s;
+	let s: String = unistd::getpid().as_raw().to_string();
+    fs::write(procs, format!("{}", s)).unwrap();
 }
 
 pub fn cgroup_quota(asset: &str, target: &str, quota: &str, group_name: &str) {	
