@@ -28,7 +28,7 @@ fn main() {
 	opts.optopt("n", "hostname", "Customize the name of your container \ndefault: --hostname dokka", "");
 	opts.optopt("q", "quota", "The quota of CGroup for your process \neg. --quota cpu:cpu.cfs_quota_us:50000", "");
 	opts.optopt("m", "mount", "Mount directory to container \neg. --mount /root:/mnt", "");
-	opts.optopt("k", "check", "1", "");
+	opts.optopt("k", "network", "Add the hostname of the container that you wish to set the network up for \n eg. --network dokka", "");
 	opts.optflag("h", "help", "Print this help menu");
 
 

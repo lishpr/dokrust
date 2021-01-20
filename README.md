@@ -26,6 +26,8 @@ Options:
                         eg. --quota cpu:cpu.cfs_quota_us:50000
     -m, --mount         Mount directory to container
                         eg. --mount /root:/mnt
+    -k, --network       Add the hostname of the container that you wish to set the network up for
+                        eg. --network dokka
     -h, --help          Print this help menu
 ```
 
@@ -40,6 +42,9 @@ You may assign a distinct hostname for your container, such that distinct CGroup
 
 ### --quota
 The CGroup quota for your container. Should be formatted into ```{CGROUP_NAME}:{CGROUP_TARGET}:{QUOTA}```, for instance: ```cpu:cpu.cfs_quota_us:50000```. Multiple CGroup quotas should be seperated with ```::``` (two colons).
+
+### --network (important!)
+Adds network support to chosen container. Use this option as a standalone function after the chosen container is up and running! (Will be fixed later.)
 
 ### --mount
 Mount a directory outside the chosen rootfs into the container.
