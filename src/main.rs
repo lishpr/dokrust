@@ -53,7 +53,7 @@ fn main() {
 	let name = if matches.opt_present("n") {matches.opt_str("n").unwrap()} else {String::from("dokka")};
 	if matches.opt_present("k") {
 		let check = matches.opt_str("k").unwrap_or("dokka-container".to_owned());
-		network::fgetpid(&check);
+		network::net_main(&check);
 		return;
 	};
 	let quota = match matches.opt_str("quota") {
