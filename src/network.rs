@@ -10,7 +10,8 @@ static ETC_NETNS_PATH: &str = "/etc/netns";
 static BR0: &str = "br0";
 
 pub fn net_main(group_name: &str) {
-    let pid = &fgetpid(group_name);
+    let name = &(group_name.to_owned() + "-container");
+    let pid = &fgetpid(name);
     link_netns(pid);
     command_set(pid);
     internet_conn(pid);
