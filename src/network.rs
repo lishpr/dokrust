@@ -43,6 +43,11 @@ fn link_netns(netns_name: &str) {
 
     tar_path.push(netns_name);
     println!("{}", src_path.to_str().unwrap());
+
     println!("{}", tar_path.to_str().unwrap());
-    Command::new("ln").arg("-s").arg("-f").arg(src_path.to_str().unwrap()).arg(tar_path.to_str().unwrap()).spawn().unwrap();
+    symlink(src_path.to_str().unwrap(), tar_path.to_str().unwrap());
+}
+
+fn symlink(src: &str, des: &str) {
+    Command::new("ln").arg("-s").arg("-f").arg(src).arg(des).spawn().unwrap();
 }
