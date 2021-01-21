@@ -9,6 +9,7 @@ Now, functionalities are being incrementally added. Including:
 * quota assignment in different control groups for isolation
 * sustained interaction within the container
 * directory mounting into the container
+* basic network support
 
 ## Usage
 
