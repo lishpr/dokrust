@@ -61,12 +61,12 @@ impl Runtime<'_> {
 		let arg_slice = self.args.as_slice();
 		Command::new(self.cmd).args(arg_slice).spawn().expect("Failed to execute container command").wait().unwrap();
 		
-		mount::unmount_item("proc");
+		//mount::unmount_item("proc");
 		return 0;
 	}
 	
 	pub fn run_container(&self) {
-		const STACK_SIZE: usize = 1024 * 1024;
+		const STACK_SIZE: usize = 4 * 1024 * 1024;
 		let stack: &mut [u8; STACK_SIZE] = &mut [0; STACK_SIZE];
 		
 		let cb = Box::new(|| self.spawn_child());

@@ -11,6 +11,7 @@ pub fn mount_tran(src: &str, tar: &str) {
 	mount::mount(Some(src), tar, NONE, mount::MsFlags::MS_BIND, NONE).expect(&("Failed to mount transiently: ".to_owned() + src));
 }
 
+#[allow(dead_code)]
 pub fn unmount_item(f: &str) {
 	mount::umount(f).unwrap();
 }
